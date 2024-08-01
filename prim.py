@@ -1,9 +1,13 @@
 import tkinter as tk
 from tkinter import messagebox
+import time
 kin = tk.Tk()
-print("File Changer")
-filename = ".txt"
 
+print("File Changer")
+time.sleep(1)
+filename = "unnamed"
+
+print(__file__)
 
 # # Following code is during file input
 
@@ -32,8 +36,9 @@ if filename == ".txt":
     print("nooo")
     messagebox.showerror("Error", "Invalid Filename\nTry Rerunning the program")
     quit()
-
-file = open(filename, "r")
-# This is the preview of the file
-prepreview = file.readlines()
-preview = f"{prepreview[0]}{prepreview[1]}"
+try:    
+    file = open(filename, "r")
+    prepreview = file.readlines()
+    preview = f"{prepreview[0]}{prepreview[1]}"
+except:
+    file = open(filename, "w")
