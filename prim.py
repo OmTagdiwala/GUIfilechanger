@@ -5,37 +5,53 @@ kin = tk.Tk()
 
 print("File Changer")
 time.sleep(1)
-filename = "unnamed"
-
-print(__file__)
+filename = "Untitled"
+path = __file__
 
 # # Following code is during file input
+while filename == "Untitled":
+    # file locator
 
-def get_file():
-    global filename
-    filename = filein.get()
-    kin.quit()
+    def selectfile(foldername):
+        path = foldername
+        print(path)
 
-kin.title("File Changer :)")
-kin.geometry("300x50")
+    machpath = __file__
+    spmachpath = dict(enumerate(machpath.split("\\")))
+    filemenu = tk.Menu(kin)
+    kin.config(menu=filemenu)
 
-tk.Label(kin, text="Enter a Filename: ").grid(row=0)
-# for file input textbox
-filein = tk.Entry(kin, cursor="target")
-filein.grid(row=0, column=1)
-filein.insert(10, ".txt")
-# for file input confirmation button
-tk.Button(kin, text="Search for File", cursor="dot", command=get_file, width=15, relief="ridge", justify="center").grid(row=2, column=1)
+    filemenu.add_command(label="File", command=selectfile("yoo"))
 
-kin.mainloop()
+    # file inputting
 
-print(filename)
+    def get_file():
+        global filename
+        filename = filein.get()
+        kin.quit()
+
+    kin.title("File Changer :)")
+    kin.geometry("300x50")
+
+    tk.Label(kin, text="Enter a Filename: ").grid(row=0)
+    # for file input textbox
+    filein = tk.Entry(kin, cursor="target")
+    filein.grid(row=0, column=1)
+    filein.insert(10, ".txt")
+    # for file input confirmation button
+    tk.Button(kin, text="Search for File", cursor="dot", command=get_file, width=15, relief="ridge", justify="center").grid(row=2, column=1)
+        
+    kin.mainloop()
+
+    if filename == ".txt":
+        print("nooo")
+        messagebox.showerror("Error", "Invalid Filename\nTry Rerunning the program")
+        filename = "Untitled"
+
+    print(filename)
+
 # # Following code is after file input
 
-if filename == ".txt":
-    print("nooo")
-    messagebox.showerror("Error", "Invalid Filename\nTry Rerunning the program")
-    quit()
 try:    
     file = open(filename, "r")
     prepreview = file.readlines()
