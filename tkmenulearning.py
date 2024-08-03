@@ -26,7 +26,7 @@ file_menu2.add_command(label="who", command= lambda: print("whooooooo"))
 file_menu2.add_command(label="why", command= lambda: print("whyyyyyyy"))
 
 # non-top-bar version of menu
-mainmenu = ttk.Menubutton(kin, text="Main menu")
+mainmenu = ttk.Menubutton(kin, text="Select a file")
 mainmenu.grid()
 
 firstsubmenu = tk.Menu(mainmenu, tearoff=False)

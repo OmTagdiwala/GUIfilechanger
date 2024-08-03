@@ -1,7 +1,25 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
 import time
+q = 5
+
 kin = tk.Tk()
+
+def file_menus():
+    global q
+    q+=1
+    mainmenu = ttk.Menubutton(kin, text="Select File Location")
+
+    mainmenu.grid(row= q, column= 1)
+
+    firstsubmenu = tk.Menu(mainmenu, tearoff=False)
+    firstsubmenu.add_command(label="op1", command= file_menus)
+    firstsubmenu.add_checkbutton(label="op2", command= lambda: print("cheese"))
+
+    mainmenu.configure(menu = firstsubmenu)
+    print("cheese", q)
+
 
 print("File Changer")
 time.sleep(1)
@@ -18,11 +36,7 @@ while filename == "Untitled":
 
     machpath = __file__
     spmachpath = dict(enumerate(machpath.split("\\")))
-    filemenu = tk.Menu(kin)
-    kin.config(menu=filemenu)
-
-    filemenu.add_command(label="File", command=selectfile("yoo"))
-
+    file_menus()
     # file inputting
 
     def get_file():
@@ -31,7 +45,7 @@ while filename == "Untitled":
         kin.quit()
 
     kin.title("File Changer :)")
-    kin.geometry("300x50")
+    kin.geometry("300x150")
 
     tk.Label(kin, text="Enter a Filename: ").grid(row=0)
     # for file input textbox
