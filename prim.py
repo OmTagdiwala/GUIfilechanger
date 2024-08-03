@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 import time
+import os
 q = 5
 
 kin = tk.Tk()
@@ -15,7 +16,7 @@ def file_menus():
 
     firstsubmenu = tk.Menu(mainmenu, tearoff=False)
     firstsubmenu.add_command(label="op1", command= file_menus)
-    firstsubmenu.add_checkbutton(label="op2", command= lambda: print("cheese"))
+    firstsubmenu.add_command(label="op2", command= lambda: print("cheese"))
 
     mainmenu.configure(menu = firstsubmenu)
     print("cheese", q)
@@ -29,7 +30,7 @@ path = __file__
 # # Following code is during file input
 while filename == "Untitled":
     # file locator
-
+    q = 5
     def selectfile(foldername):
         path = foldername
         print(path)
