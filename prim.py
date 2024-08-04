@@ -7,6 +7,10 @@ q = 5
 
 kin = tk.Tk()
 
+palist = __file__.split("\\")
+print(palist)
+machpath = ("\\".join(palist[:2])) + "\\"
+
 def file_menus():
     global q
     q+=1
@@ -20,6 +24,20 @@ def file_menus():
 
     mainmenu.configure(menu = firstsubmenu)
     print("cheese", q)
+
+def scaledirparsing(level=None):
+    global machpath
+    if level != None:
+        directoryy = level.split(",")
+        print(directoryy)
+        dirpath = ("\\".join(directoryy)) + "\\"
+        machpath = os.path.join(machpath, dirpath)
+        print(machpath)
+    for i in os.scandir(machpath):
+        if not os.path.isdir(i):
+            continue
+        print(i)
+    print(machpath)
 
 
 print("File Changer")
@@ -35,8 +53,6 @@ while filename == "Untitled":
         path = foldername
         print(path)
 
-    machpath = __file__
-    spmachpath = dict(enumerate(machpath.split("\\")))
     file_menus()
     # file inputting
 
@@ -46,7 +62,7 @@ while filename == "Untitled":
         kin.quit()
 
     kin.title("File Changer :)")
-    kin.geometry("300x150")
+    kin.geometry("500x150")
 
     tk.Label(kin, text="Enter a Filename: ").grid(row=0)
     # for file input textbox
@@ -58,7 +74,7 @@ while filename == "Untitled":
         
     kin.mainloop()
 
-    if filename == ".txt":
+    if filename == ".txt" or filename.strip() == "":
         print("nooo")
         messagebox.showerror("Error", "Invalid Filename\nTry Rerunning the program")
         filename = "Untitled"
