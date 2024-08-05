@@ -3,43 +3,54 @@ from tkinter import messagebox
 from tkinter import ttk
 import time
 import os
-q = 5
 
 kin = tk.Tk()
-
 palist = __file__.split("\\")
 print(palist)
-machpath = ("\\".join(palist[:2])) + "\\"
+selectionlab = palist[:1]
+machpath = ("\\".join(palist[:1])) + "\\"
+print(machpath)
 
-def file_menus():
+q = 5
+
+def addtopath(t):
+    global machpath
+    global selectionlab
+    premachpath = str(machpath)
+    machpath = os.path.join(machpath, t)
+    selectionlab = t
+    pathin.delete(0, tk.END)
+    pathin.insert(10, machpath)
+    print(machpath)
+    dirmenu()
+
+
+def file_menus(directories):
     global q
+    pathin = tk.Label(kin, text="Current File Location: ").grid(row=5)
+
     q+=1
-    mainmenu = ttk.Menubutton(kin, text="Select File Location")
+    mainmenu = ttk.Menubutton(kin, text=selectionlab)
 
     mainmenu.grid(row= q, column= 1)
 
     firstsubmenu = tk.Menu(mainmenu, tearoff=False)
-    firstsubmenu.add_command(label="op1", command= file_menus)
-    firstsubmenu.add_command(label="op2", command= lambda: print("cheese"))
+    for i in directories:    
+        firstsubmenu.add_command(label=i, command= lambda i=i: addtopath(i))
 
     mainmenu.configure(menu = firstsubmenu)
     print("cheese", q)
 
-def scaledirparsing(level=None):
+def dirmenu():
     global machpath
-    if level != None:
-        directoryy = level.split(",")
-        print(directoryy)
-        dirpath = ("\\".join(directoryy)) + "\\"
-        machpath = os.path.join(machpath, dirpath)
-        print(machpath)
+    dirs = []
     for i in os.scandir(machpath):
         if not os.path.isdir(i):
             continue
-        print(i)
-    print(machpath)
-
-
+        dirs.append(i)
+    if dirs != []:
+        file_menus(dirs)
+    
 print("File Changer")
 time.sleep(1)
 filename = "Untitled"
@@ -53,20 +64,24 @@ while filename == "Untitled":
         path = foldername
         print(path)
 
-    file_menus()
-    # file inputting
+    dirmenu()
+
+    print(machpath)
 
     def get_file():
         global filename
         filename = filein.get()
         kin.quit()
-
+    pathin = tk.Entry(kin, cursor="target", width=50)
+    pathin.insert(10, machpath)
+    pathin.grid(row=5, column=1)
+    
     kin.title("File Changer :)")
-    kin.geometry("500x150")
+    kin.geometry("500x500")
 
     tk.Label(kin, text="Enter a Filename: ").grid(row=0)
     # for file input textbox
-    filein = tk.Entry(kin, cursor="target")
+    filein = tk.Entry(kin, cursor="target", width=50)
     filein.grid(row=0, column=1)
     filein.insert(10, ".txt")
     # for file input confirmation button
