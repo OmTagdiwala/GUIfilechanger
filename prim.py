@@ -11,10 +11,11 @@ selectionlab = palist[:1]
 machpath = ("\\".join(palist[:1])) + "\\"
 print(machpath)
 
-q = 5
+q = 6
 
 def addtopath(t):
     global machpath
+    global selectionlab
     global selectionlab
     premachpath = str(machpath)
     machpath = os.path.join(machpath, t)
@@ -27,6 +28,7 @@ def addtopath(t):
 
 def file_menus(directories):
     global q
+    global selectionlab
     pathin = tk.Label(kin, text="Current File Location: ").grid(row=5)
 
     q+=1
@@ -50,6 +52,9 @@ def dirmenu():
         dirs.append(i)
     if dirs != []:
         file_menus(dirs)
+    elif dirs == []:
+        messagebox.showinfo("No Directory", "No Directories here :(\nThis will still become the new path though")
+
     
 print("File Changer")
 time.sleep(1)
@@ -72,6 +77,19 @@ while filename == "Untitled":
         global filename
         filename = filein.get()
         kin.quit()
+
+    def get_path():
+        global machpath
+        global pathin
+        if (pathin.get() != machpath) and os.path.exists(pathin.get()):        
+            machpath = pathin.get()
+            print(machpath)
+            dirmenu()
+        else:
+            print("nahhh >:(")
+            messagebox.showerror("Error", "Invalid Manual Path\nDouble check the path\n(Also won't work if this is the currently used path already)")
+
+
     pathin = tk.Entry(kin, cursor="target", width=50)
     pathin.insert(10, machpath)
     pathin.grid(row=5, column=1)
@@ -86,12 +104,17 @@ while filename == "Untitled":
     filein.insert(10, ".txt")
     # for file input confirmation button
     tk.Button(kin, text="Search for File", cursor="dot", command=get_file, width=15, relief="ridge", justify="center").grid(row=2, column=1)
+    # for path input
+    tk.Button(kin, text="Use Manual Path (type in entry)", cursor="dot", command=get_path, width=15, relief="ridge", justify="center").grid(row=2, column=2)
+
+
         
+
     kin.mainloop()
 
     if filename == ".txt" or filename.strip() == "":
         print("nooo")
-        messagebox.showerror("Error", "Invalid Filename\nTry Rerunning the program")
+        messagebox.showerror("Error", "Invalid Filename\nTry another filename")
         filename = "Untitled"
 
     print(filename)
