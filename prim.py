@@ -5,6 +5,7 @@ import time
 import os
 
 kin = tk.Tk()
+kin.configure(bg="lightblue")
 palist = __file__.split("\\")
 print(palist)
 selectionlab = palist[:1]
@@ -13,13 +14,13 @@ print(machpath)
 
 q = 6
 
-def addtopath(t):
+def addtopath(e, t):
     global machpath
     global selectionlab
-    global selectionlab
+    global premachpath
     premachpath = str(machpath)
     machpath = os.path.join(machpath, t)
-    selectionlab = t
+    selectionlab = e
     pathin.delete(0, tk.END)
     pathin.insert(10, machpath)
     print(machpath)
@@ -29,22 +30,26 @@ def addtopath(t):
 def file_menus(directories):
     global q
     global selectionlab
-    pathin = tk.Label(kin, text="Current File Location: ").grid(row=5)
+    global pathlab
+    pathlab = tk.Label(kin, text="Current File Location: ").grid(row=5)
 
     q+=1
     mainmenu = ttk.Menubutton(kin, text=selectionlab)
 
-    mainmenu.grid(row= q, column= 1)
+    mainmenu.grid(row= q, column= 0)
 
-    firstsubmenu = tk.Menu(mainmenu, tearoff=False)
+    firstsubmenu = tk.Menu(mainmenu, tearoff=False, activeforeground="Yellow", activebackground="blue",)
     for i in directories:    
-        firstsubmenu.add_command(label=i, command= lambda i=i: addtopath(i))
+        f = str(i)
+        f = f[11:-2]
+        firstsubmenu.add_command(label=f, command= lambda i=i, f=f: addtopath(f, i))
 
     mainmenu.configure(menu = firstsubmenu)
     print("cheese", q)
 
 def dirmenu():
     global machpath
+    global dirs
     dirs = []
     for i in os.scandir(machpath):
         if not os.path.isdir(i):
@@ -81,8 +86,17 @@ while filename == "Untitled":
     def get_path():
         global machpath
         global pathin
+        global selectionlab
         if (pathin.get() != machpath) and os.path.exists(pathin.get()):        
             machpath = pathin.get()
+            quees = (machpath.strip()).split("\\")
+            print(len(quees))
+            if len(quees) > 2:
+                selectionlab = (quees)[-1]
+            elif machpath[-1] == "\\":
+                selectionlab = machpath[:-1]
+            else:
+                selectionlab = machpath
             print(machpath)
             dirmenu()
         else:
@@ -95,7 +109,7 @@ while filename == "Untitled":
     pathin.grid(row=5, column=1)
     
     kin.title("File Changer :)")
-    kin.geometry("500x500")
+    kin.geometry("600x300")
 
     tk.Label(kin, text="Enter a Filename: ").grid(row=0)
     # for file input textbox
@@ -105,7 +119,7 @@ while filename == "Untitled":
     # for file input confirmation button
     tk.Button(kin, text="Search for File", cursor="dot", command=get_file, width=15, relief="ridge", justify="center").grid(row=2, column=1)
     # for path input
-    tk.Button(kin, text="Use Manual Path (type in entry)", cursor="dot", command=get_path, width=15, relief="ridge", justify="center").grid(row=2, column=2)
+    tk.Button(kin, text="Use Manual Path (type in file location)", cursor="dot", command=get_path, width=30, relief="ridge", justify="center").grid(row=6, column=1)
 
 
         
