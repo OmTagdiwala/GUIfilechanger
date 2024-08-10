@@ -169,3 +169,7 @@ except:
     origfilee = open(filename, "w")
     yoo = ""
 
+def rewrite_all(contect):
+    global filename
+    with open(filename, "w") as fille:
+        fille.write(contect)
