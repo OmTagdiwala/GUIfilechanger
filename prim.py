@@ -130,14 +130,42 @@ while filename == "Untitled":
         print("nooo")
         messagebox.showerror("Error", "Invalid Filename\nTry another filename")
         filename = "Untitled"
+        continue
 
     print(filename)
 
 # # Following code is after file input
 
-try:    
-    file = open(filename, "r")
-    prepreview = file.readlines()
-    preview = f"{prepreview[0]}{prepreview[1]}"
+    try:
+        if filename == "Untitled": continue
+        with open(filename, "r") as file:
+            try:
+                prepreview = file.readlines()
+            except:
+                messagebox.showerror("Error", "File Too Large\nTry another filename")
+                filename = "Untitled"
+                continue
+        preview = f"{prepreview[0]}{prepreview[1]}"
+        x = messagebox.askokcancel("Preview", f"This is a preview of your file:\n\n\"{preview}\"\n\nContinue?")
+        if x:
+            filename = filename
+        else:
+            filename = "Untitled"
+            continue
+            
+    except:
+        if filename == "Untitled": continue
+        y = messagebox.askokcancel("New File Detected", f"This file does not exist so you will be creating a new file here:\n\n{machpath}\n\nContinue?")
+        if y:
+            filename = filename
+        else:
+            filename = "Untitled"
+            continue
+
+try:
+    origfilee = open(filename, "r")
+    yoo = origfilee.read()
 except:
-    file = open(filename, "w")
+    origfilee = open(filename, "w")
+    yoo = ""
+
