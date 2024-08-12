@@ -108,7 +108,7 @@ while filename == "Untitled":
     pathin.insert(10, machpath)
     pathin.grid(row=5, column=1)
     
-    kin.title("File Changer :)")
+    kin.title("File Selector :)")
     kin.geometry("600x300")
 
     tk.Label(kin, text="Enter a Filename: ").grid(row=0)
@@ -146,7 +146,7 @@ while filename == "Untitled":
                 filename = "Untitled"
                 continue
         preview = f"{prepreview[0]}{prepreview[1]}"
-        x = messagebox.askokcancel("Preview", f"This is a preview of your file:\n\n\"{preview}\"\n\nContinue?")
+        x = messagebox.askokcancel("Preview", f"This is a preview of your file:\n\n\n{preview}\n\nContinue?")
         if x:
             filename = filename
         else:
@@ -162,6 +162,8 @@ while filename == "Untitled":
             filename = "Untitled"
             continue
 
+kin.destroy()
+
 try:
     origfilee = open(filename, "r")
     yoo = origfilee.read()
@@ -173,3 +175,16 @@ def rewrite_all(contect):
     global filename
     with open(filename, "w") as fille:
         fille.write(contect)
+
+quackers = tk.Tk()
+u = quackers.winfo_screenwidth() - 150
+e = quackers.winfo_screenheight() - 150
+quackers.geometry(f"{u}x{e}")
+quackers.title("File Editor :D")
+
+textholder = tk.Text(quackers, width=(int(u/8) - 10), height=(int(e/8) - 80))
+textholder.insert(tk.END, yoo)
+textholder.grid(padx=7, pady=7)
+
+
+quackers.mainloop()
