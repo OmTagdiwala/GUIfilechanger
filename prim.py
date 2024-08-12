@@ -164,22 +164,32 @@ while filename == "Untitled":
 
 kin.destroy()
 
+# # Actual Editor
+savestatus = "Unchanged File ._."
 try:
-    origfilee = open(filename, "r")
-    yoo = origfilee.read()
+    with open(filename, "r") as origfilee:
+        yoo = str(origfilee.read())
     saver = "Save"
 except:
-    origfilee = open(filename, "w")
-    yoo = ""
+    with open(filename, "w") as origfilee:
+        yoo = " "
+        origfilee.write(yoo)
     saver = "Save"
 
 def rewrite_all():
     global filename
+    global savestatus
+    global saved
+    global yoo
     contect = textholder.get(1.0, tk.END)
     try:
         with open(filename, "w") as fille:
             fille.write(contect)
-        
+        yoo = contect
+        saved.delete(0, tk.END)
+        savestatus = "Saved! :)"
+        saved.insert(10, savestatus)
+
     except:
         messagebox.showerror("Error", "File Too Large\nTry shortening the content in it")
 
@@ -190,11 +200,18 @@ u = quackers.winfo_screenwidth() - 150
 e = quackers.winfo_screenheight() - 150
 quackers.geometry(f"{u}x{e}")
 quackers.title("File Editor :D")
-textholder = tk.Text(quackers, width=int((u/8) - 10), height=int((e/8)- 45), yscrollcommand=b.set, font=('Times New Roman',"12","normal"))
+textholder = tk.Text(quackers, width=int((u/8) - 10), height=int((e/8)- 45), yscrollcommand=b.set, font=('Ubuntu',"12","normal"))
 textholder.insert(tk.END, yoo)
 b.config(command=textholder.yview)
 textholder.pack(padx=7, pady=7)
+saved = tk.Entry(quackers, cursor="target", width=50, state="normal")
+saved.insert(10, savestatus)
 tk.Button(quackers, text=saver, cursor="dot", command=rewrite_all, width=15, relief="ridge", justify="center").pack(side = "bottom", pady=4)
+saved.pack()
 
+if yoo != textholder.get(1.0, tk.END):
+    savestatus = "Unsaved work!! :O"
+    saved.delete(0, tk.END)
+    saved.insert(10, savestatus)
 
 quackers.mainloop()
