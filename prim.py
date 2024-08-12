@@ -167,24 +167,34 @@ kin.destroy()
 try:
     origfilee = open(filename, "r")
     yoo = origfilee.read()
+    saver = "Save"
 except:
     origfilee = open(filename, "w")
     yoo = ""
+    saver = "Save"
 
-def rewrite_all(contect):
+def rewrite_all():
     global filename
-    with open(filename, "w") as fille:
-        fille.write(contect)
+    contect = textholder.get(1.0, tk.END)
+    try:
+        with open(filename, "w") as fille:
+            fille.write(contect)
+        
+    except:
+        messagebox.showerror("Error", "File Too Large\nTry shortening the content in it")
 
 quackers = tk.Tk()
+b = tk.Scrollbar(quackers, orient= "vertical")
+b.pack(side="right", fill="y")
 u = quackers.winfo_screenwidth() - 150
 e = quackers.winfo_screenheight() - 150
 quackers.geometry(f"{u}x{e}")
 quackers.title("File Editor :D")
-
-textholder = tk.Text(quackers, width=(int(u/8) - 10), height=(int(e/8) - 80))
+textholder = tk.Text(quackers, width=int((u/8) - 10), height=int((e/8)- 45), yscrollcommand=b.set, font=('Times New Roman',"12","normal"))
 textholder.insert(tk.END, yoo)
-textholder.grid(padx=7, pady=7)
+b.config(command=textholder.yview)
+textholder.pack(padx=7, pady=7)
+tk.Button(quackers, text=saver, cursor="dot", command=rewrite_all, width=15, relief="ridge", justify="center").pack(side = "bottom", pady=4)
 
 
 quackers.mainloop()
