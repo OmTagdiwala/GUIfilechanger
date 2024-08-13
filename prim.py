@@ -176,20 +176,28 @@ except:
         origfilee.write(yoo)
     saver = "Save"
 
+def constcompare():
+    global savestatus
+    saved.state=tk.NORMAL
+    if yoo.rstrip() != textholder.get(1.0, tk.END).rstrip():
+        savestatus = "Unsaved! :O"
+    else:
+        savestatus = "Saved! :D"
+    saved.delete(0, tk.END)
+    saved.insert(10, savestatus)
+    saved.state=tk.DISABLED
+    quackers.after(500, constcompare)
+
 def rewrite_all():
     global filename
     global savestatus
     global saved
     global yoo
-    contect = textholder.get(1.0, tk.END)
+    contect = textholder.get(1.0, tk.END).rstrip()
     try:
         with open(filename, "w") as fille:
             fille.write(contect)
         yoo = contect
-        saved.delete(0, tk.END)
-        savestatus = "Saved! :)"
-        saved.insert(10, savestatus)
-
     except:
         messagebox.showerror("Error", "File Too Large\nTry shortening the content in it")
 
@@ -209,9 +217,6 @@ saved.insert(10, savestatus)
 tk.Button(quackers, text=saver, cursor="dot", command=rewrite_all, width=15, relief="ridge", justify="center").pack(side = "bottom", pady=4)
 saved.pack()
 
-if yoo != textholder.get(1.0, tk.END):
-    savestatus = "Unsaved work!! :O"
-    saved.delete(0, tk.END)
-    saved.insert(10, savestatus)
+quackers.after(3000, constcompare())
 
 quackers.mainloop()
