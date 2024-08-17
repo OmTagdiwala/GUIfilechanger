@@ -1,6 +1,2 @@
-This is a basic text file, just a test
-this doesnt have any important info lol
-
-This file can be edited lol and yeah thats that
-not really much to see....
-im just trying to make this file decently long so when im testing it I can see changes and confirm everything work
+For Any User who figure out how to access this test file, COOL!
+I'm Om Tagdiwala the creator of this program and this was just my first completely independent, toutorial-less project, spent 18 hours on it lol, I hope you like it!
