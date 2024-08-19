@@ -1,0 +1,1 @@
+-e git+https://github.com/OmTagdiwala/GUIfilechanger.git@1b5e01f06214e6fa8e963e2e7fc7d1a5367dfe8f#egg=gui_filechanger
